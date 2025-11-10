@@ -1,0 +1,11 @@
+### Creats a new Patient Entity
+
+GET http://localhost:8089/api/patients
+Content-Type: application/json
+
+{
+  "address": " Madan Mahal Jabalpur",
+  "email": "Abhishekvicky@gmail.com",
+  "birthDate": "1992-06-20",
+  "phoneNumber": "+919893787855"
+}
