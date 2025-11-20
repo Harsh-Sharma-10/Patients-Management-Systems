@@ -28,6 +28,7 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+
     </properties>
     <dependencies>
         <dependency>
@@ -64,11 +65,10 @@
             <version>1.62.2</version>
         </dependency>
 
-        <!-- 🧩 Google Protocol Buffers Runtime -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.25.3</version>
+            <version>4.30.2</version> <!-- Match your protoc version -->
         </dependency>
 
         <!-- 🧱 Tomcat Annotations API (Required for Java 9+) -->
@@ -94,10 +94,44 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <!-- Required for OS detection (used by protoc) -->
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.1</version> <!-- Latest stable -->
+            </extension>
+        </extensions>
+
         <plugins>
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Protobuf and gRPC Plugin -->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version> <!-- Still the stable maintained version -->
+                <configuration>
+                    <protocArtifact>
+                        com.google.protobuf:protoc:4.30.2:exe:${os.detected.classifier}
+                    </protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>
+                        io.grpc:protoc-gen-grpc-java:1.68.1:exe:${os.detected.classifier}
+                    </pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
