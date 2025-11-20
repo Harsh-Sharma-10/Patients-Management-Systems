@@ -6,6 +6,7 @@ import com.pm.patientservices.Mapper.PatientMapper;
 
 import com.pm.patientservices.Model.DeletedPatient;
 import com.pm.patientservices.Model.Patient;
+import com.pm.patientservices.RPC.BillingServiceGrpcClient;
 import com.pm.patientservices.Repositories.DeletedPatientRepository;
 import com.pm.patientservices.Repositories.PatientRepository;
 import com.pm.patientservices.exception.EmailAlreadyExitsException;
@@ -21,11 +22,12 @@ import java.util.UUID;
 public class PatientServices {
      private final  PatientRepository patientRepository;
      private  final DeletedPatientRepository deletedPatientRepository;
+     private final BillingServiceGrpcClient billingServiceGrpcClient;
 
-
-    PatientServices(PatientRepository patientRepository, DeletedPatientRepository deletedPatientRepository) {
+    PatientServices(PatientRepository patientRepository, DeletedPatientRepository deletedPatientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
          this.patientRepository = patientRepository;
          this.deletedPatientRepository = deletedPatientRepository;
+         this.billingServiceGrpcClient = billingServiceGrpcClient;
 
      }
 
@@ -48,6 +50,7 @@ public class PatientServices {
         }
         Patient patient = PatientMapper.totakepatientfromRequestDto(patientRequestDto);
         patientRepository.save(patient);
+        billingServiceGrpcClient.createBilling(patient.getId().toString(), patient.getName(), patient.getEmail());
         return PatientMapper.patientResponseDto(patient);
     }
     public PatientResponseDto updatePatient(UUID id, PatientRequestDto patientRequestDto){

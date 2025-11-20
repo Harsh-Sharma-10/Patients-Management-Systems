@@ -99,7 +99,7 @@
             <extension>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
-                <version>1.7.1</version> <!-- Latest stable -->
+                <version>1.7.1</version>
             </extension>
         </extensions>
 
@@ -110,20 +110,26 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Protobuf and gRPC Plugin -->
+            <!-- Protobuf + gRPC Plugin -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.6.1</version> <!-- Still the stable maintained version -->
+                <version>0.6.1</version>
+
                 <configuration>
+                    <!-- protoc: version + OS-specific exe -->
                     <protocArtifact>
-                        com.google.protobuf:protoc:4.30.2:exe:${os.detected.classifier}
+                        com.google.protobuf:protoc:3.25.3:exe:${os.detected.classifier}
                     </protocArtifact>
+
+                    <!-- gRPC Java codegen -->
                     <pluginId>grpc-java</pluginId>
                     <pluginArtifact>
                         io.grpc:protoc-gen-grpc-java:1.68.1:exe:${os.detected.classifier}
                     </pluginArtifact>
+
                 </configuration>
+
                 <executions>
                     <execution>
                         <goals>
