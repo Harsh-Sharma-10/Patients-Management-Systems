@@ -4,10 +4,10 @@ POST http://localhost:8089/api/add
 Content-Type: application/json
 
 {
-  "name": "Harsh Sharma BillingA/C",
-  "email": "hsdt1255@gmail.com",
-  "address": "Rasuliya Hbad",
-  "birthDate": "1993-04-04",
-  "phoneNumber": "+917898484811",
-  "registerDate": "2025-10-11"
+  "name": "Kabir Singh",
+  "email": "kabir.singh87@gmail.com",
+  "address": "New Delhi",
+  "registerDate": "2023-02-25",
+  "birthDate": "1995-01-05",
+  "phoneNumber": "+917700889944"
 }

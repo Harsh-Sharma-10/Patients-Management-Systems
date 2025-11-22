@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+
+  billing-systems:
+    build: "./billing-systems"
+    container_name: billing-systems
+    environment:
+      - TZ=Asia/Kolkata
+      - JAVA_OPTS=-Duser.timezone=Asia/Kolkata
+    ports:
+      - "8090:8090"
+      - "9001:9001"
+    networks:
+      - patient_net
+
+  patient-service:
+    build: "./Patient-Services"
+    container_name: patient-service
+    environment:
+      - TZ=Asia/Kolkata
+      - JAVA_OPTS=-Duser.timezone=Asia/Kolkata
+    ports:
+      - "8089:8089"
+    depends_on:
+      - billing-systems
+      - patient-service-database
+    networks:
+      - patient_net
+
+  patient-service-database:
+    image: postgres:18
+    container_name: patient-service-database
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: patient_data
+      TZ: Asia/Kolkata
+    ports:
+      - "5000:5432"
+    volumes:
+      - patient_db_data:/var/lib/postgresql   # FIXED FOR POSTGRES 18+
+    networks:
+      - patient_net
+
+volumes:
+  patient_db_data:
+
+networks:
+  patient_net:
+    driver: bridge

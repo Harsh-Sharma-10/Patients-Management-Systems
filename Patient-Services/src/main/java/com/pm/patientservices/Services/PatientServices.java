@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +51,15 @@ public class PatientServices {
         }
         Patient patient = PatientMapper.totakepatientfromRequestDto(patientRequestDto);
         patientRepository.save(patient);
-        billingServiceGrpcClient.createBilling(patient.getId().toString(), patient.getName(), patient.getEmail());
+        try {
+            billingServiceGrpcClient
+                    .createBilling(
+                            patient.getId().toString(),
+                            patient.getName(),
+                            patient.getEmail());
+        }catch (Exception e){
+            System.out.println("Failed to call Billing gRPC service: " + e.getMessage());
+        }
         return PatientMapper.patientResponseDto(patient);
     }
     public PatientResponseDto updatePatient(UUID id, PatientRequestDto patientRequestDto){
@@ -80,7 +89,7 @@ public class PatientServices {
       deletedPatient.setPhoneNumber(patient.getPhoneNumber());
       deletedPatient.setAddress(patient.getAddress());
       deletedPatient.setRegistredate(patient.getRegistredate());
-      deletedPatient.setDeletedAt(LocalDateTime.now());
+      deletedPatient.setDeletedAt(LocalDateTime.now(ZoneId.of("Asia/Kolkata")));
 
       deletedPatientRepository.save(deletedPatient);/// first save the object to deletedpatients table and then deleting it from main patient table
 
