@@ -11,16 +11,7 @@ import org.slf4j.LoggerFactory;
 @GrpcService   ///GRPC Service
 public class BillingGRpcService extends BillingServiceImplBase {
 
-    public static String getRandomNumberString(int length) {
-        java.security.SecureRandom random = new java.security.SecureRandom();
-        StringBuilder sb = new StringBuilder(length);
 
-        for (int i = 0; i < length; i++) {
-            sb.append(random.nextInt(10)); // generates digit 0–9
-        }
-
-        return sb.toString();
-    }
 
 
     private static final Logger log = LoggerFactory.getLogger(BillingGRpcService.class);
@@ -33,7 +24,7 @@ public class BillingGRpcService extends BillingServiceImplBase {
         // Bussiness Logic - e.eg save to database,perform calculates etc.
 
         BillingResponse billingResponse = BillingResponse.newBuilder()
-                .setAccountId(getRandomNumberString(7))
+                .setAccountId("12345")
                 .setStatus("ACTIVE")
                 .build();
         responseObserver.onNext(billingResponse);

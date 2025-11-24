@@ -89,7 +89,7 @@ public class PatientServices {
       deletedPatient.setPhoneNumber(patient.getPhoneNumber());
       deletedPatient.setAddress(patient.getAddress());
       deletedPatient.setRegistredate(patient.getRegistredate());
-      deletedPatient.setDeletedAt(LocalDateTime.now(ZoneId.of("Asia/Kolkata")));
+      deletedPatient.setDeletedAt(LocalDateTime.now(ZoneId.of("Asia/Kolkata")));  /// Time Zone Kolkata
 
       deletedPatientRepository.save(deletedPatient);/// first save the object to deletedpatients table and then deleting it from main patient table
 

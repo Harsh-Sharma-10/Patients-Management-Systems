@@ -1,15 +1,12 @@
-package com.pm.patientservices.Controller;
+package com.pm.patientservices.controller;
 
 
 import com.pm.patientservices.Dto.PatientRequestDto;
 import com.pm.patientservices.Dto.PatientResponseDto;
 import com.pm.patientservices.Dto.Validators.CreatePatientValidationGroup;
-import com.pm.patientservices.Mapper.PatientMapper;
-import com.pm.patientservices.Model.Patient;
 import com.pm.patientservices.Services.PatientServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +44,7 @@ public class PatientController {
     }
 
     @PostMapping("/add")
-    @Operation(summary = "adding a patient ")
+    @Operation(summary = "adding a patient    ")
     public ResponseEntity<PatientResponseDto> addPatient(@Validated({Default.class ,CreatePatientValidationGroup.class}) @RequestBody PatientRequestDto patientRequestDto){
 
             PatientResponseDto p  = patientServices.addPatient(patientRequestDto);
