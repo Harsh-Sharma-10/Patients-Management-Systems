@@ -1,13 +1,13 @@
 ### Updates an exixting patient
 
-PUT http://localhost:8089/api/update/07976223-5c1e-4956-b8e4-aaa90a4edb01
+PUT http://localhost:8089/api/update/3e77f79c-d99b-44b1-9328-a6f0c582cbb7
 Content-Type: application/json
 
 {
 
   "address": "Bharat Colony Madan Mahal",
-  "birthDate": "1993-06-20",
+  "birthDate": "1999-06-20",
   "phoneNumber": "+919893600809",
-  "email": "kshma123@gmail.com"
+  "email": "devvratrendu123@gmail.com"
 
 }

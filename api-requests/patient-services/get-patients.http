@@ -1,2 +1,2 @@
 ### Creats a new Patient Entity
-GET http://localhost:8089/logscontroller/deletedpatients
+GET http://localhost:8089/api/patients

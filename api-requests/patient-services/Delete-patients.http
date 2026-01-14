@@ -1,3 +1,3 @@
 ### Delete an existing patient
-DELETE localhost:8089/api/delete/
+DELETE localhost:8089/api/delete/b1e59b0b-2104-421f-9bee-f6578977c4b8
 ###

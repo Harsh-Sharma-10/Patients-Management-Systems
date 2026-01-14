@@ -39,7 +39,7 @@ public class AdminController {
     @DeleteMapping("/deletepermantly/{id}")
     @Operation(summary = "To delete the patient's record permanently")
     public ResponseEntity<String> deletepermantly(@PathVariable UUID id){
-        logs_PatientServices.Deletepermanently(id);
+         logs_PatientServices.Deletepermanently(id);
           return new ResponseEntity<>("DELETED PERMANTLY",HttpStatus.NO_CONTENT);
     }
 }
