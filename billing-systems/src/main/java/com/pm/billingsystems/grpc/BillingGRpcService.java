@@ -21,7 +21,7 @@ public class BillingGRpcService extends BillingServiceImplBase {
                                      io.grpc.stub.StreamObserver<billing.BillingResponse> responseObserver) {
         log.info("createBillingAccount request={}", billingRequest);
 
-        // Bussiness Logic - e.eg save to database,perform calculates etc.
+        // Bussiness Logic - e.g. save to database,perform calculates etc.
 
         BillingResponse billingResponse = BillingResponse.newBuilder()
                 .setAccountId("12345")

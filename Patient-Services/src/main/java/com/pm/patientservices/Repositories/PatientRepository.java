@@ -1,12 +1,13 @@
 package com.pm.patientservices.Repositories;
 
-import com.pm.patientservices.Model.Patient;
+
+import com.pm.patientservices.Model.PatientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 @Repository
-public interface PatientRepository extends JpaRepository<Patient, UUID> {
+public interface PatientRepository extends JpaRepository<PatientEntity, UUID> {
 
       ///Patient findByname(String name);
       boolean existsPatientById(UUID id);

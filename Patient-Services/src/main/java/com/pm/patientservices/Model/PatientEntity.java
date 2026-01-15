@@ -11,32 +11,35 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class Patient {/// POJO
+public class PatientEntity {
 
     @Id
-    @GeneratedValue( strategy =  GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
     @Email
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotNull
-    private String Address;
+    @Column(name = "address")
+    private String address;
 
     @NotNull
-    private LocalDate dateofbirth;
+    @Column(name = "dateofbirth")
+    private LocalDate dateOfBirth;
 
     @NotNull
-    private LocalDate registredate;
+    @Column(name = "registredate")
+    private LocalDate registeredDate;
 
     @NotNull
     @Pattern(regexp="^\\+?[0-9]{10,15}$")
+    @Column(name = "phone_number")
     private String phoneNumber;
-
-
 }

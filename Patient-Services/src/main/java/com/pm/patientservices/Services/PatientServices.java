@@ -5,7 +5,7 @@ import com.pm.patientservices.Dto.PatientResponseDto;
 import com.pm.patientservices.Mapper.PatientMapper;
 
 import com.pm.patientservices.Model.DeletedPatient;
-import com.pm.patientservices.Model.Patient;
+import com.pm.patientservices.Model.PatientEntity;
 import com.pm.patientservices.RPC.BillingServiceGrpcClient;
 import com.pm.patientservices.Repositories.DeletedPatientRepository;
 import com.pm.patientservices.Repositories.PatientRepository;
@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientServices {
@@ -33,14 +34,14 @@ public class PatientServices {
      }
 
     public PatientResponseDto getPatientById(UUID id) {
-        Patient patient = patientRepository.findById(id).orElse(null);
+        PatientEntity patient = patientRepository.findById(id).orElse(null);
 
         return PatientMapper.patientResponseDto(patient);
     }
 
     public List<PatientResponseDto> getpatients(){
-         List<Patient> patients = patientRepository.findAll();
-            return  patients.stream().map( PatientMapper::patientResponseDto).toList();
+         List<PatientEntity> patients = patientRepository.findAll();
+            return  patients.stream().map( PatientMapper::patientResponseDto).collect(Collectors.toList());
 
     }
     ///  an email address must be unique
@@ -49,7 +50,7 @@ public class PatientServices {
         if(patientRepository.existsByEmail(patientRequestDto.getEmail())){
             throw new EmailAlreadyExitsException("A patient with this email is already exists" + patientRequestDto.getEmail());
         }
-        Patient patient = PatientMapper.totakepatientfromRequestDto(patientRequestDto);
+        PatientEntity patient = PatientMapper.totakepatientfromRequestDto(patientRequestDto);
         patientRepository.save(patient);
         try {
             billingServiceGrpcClient
@@ -63,7 +64,7 @@ public class PatientServices {
         return PatientMapper.patientResponseDto(patient);
     }
     public PatientResponseDto updatePatient(UUID id, PatientRequestDto patientRequestDto){
-        Patient patient = patientRepository.findById(id)
+        PatientEntity patient = patientRepository.findById(id)
                 .orElseThrow(() -> new PatientNotexistsException("Patient with this id does not exist "+ id));
 
                  if(patientRepository.existsByEmailAndIdNot(patientRequestDto.getEmail(),id)){
@@ -73,28 +74,29 @@ public class PatientServices {
                  }
                   patient.setEmail(patientRequestDto.getEmail());
                   patient.setAddress(patientRequestDto.getAddress());
-                  patient.setDateofbirth(LocalDate.parse(patientRequestDto.getBirthDate()));
+                  patient.setDateOfBirth(LocalDate.parse(patientRequestDto.getBirthDate()));
                   patient.setPhoneNumber(patientRequestDto.getPhoneNumber());
                   Patient updatedPatient = patientRepository.save(patient);
           return PatientMapper.patientResponseDto(updatedPatient);
     }
     public void deletePatient(UUID id){
-      Patient patient = patientRepository.findById(id)
+      PatientEntity patient = patientRepository.findById(id)
               .orElseThrow(() -> new PatientNotexistsException("Patient with this id this already Checkedout " + id));
       DeletedPatient deletedPatient = new DeletedPatient();
       deletedPatient.setId(patient.getId());
       deletedPatient.setName(patient.getName());
-      deletedPatient.setDateofbirth(patient.getDateofbirth());
+      deletedPatient.setDateofbirth(patient.getDateOfBirth());
       deletedPatient.setEmail(patient.getEmail());
       deletedPatient.setPhoneNumber(patient.getPhoneNumber());
       deletedPatient.setAddress(patient.getAddress());
-      deletedPatient.setRegistredate(patient.getRegistredate());
-      deletedPatient.setDeletedAt(LocalDateTime.now(ZoneId.of("Asia/Kolkata")));  /// Time Zone Kolkata
+      deletedPatient.setRegistredate(patient.getRegisteredDate());
+      deletedPatient.setDeletedAt(LocalDateTime.now(ZoneId.of("Asia/Kolkata"))); /// Time Zone Kolkata
 
-      deletedPatientRepository.save(deletedPatient);/// first save the object to deletedpatients table and then deleting it from main patient table
+      deletedPatientRepository.save(deletedPatient);                                   /// first save the object to deletedpatients table and then deleting it from main patient table
 
-      patientRepository.delete(patient); /// now deleting it from main patient table
+      patientRepository.delete(patient);                                              /// now deleting it from main patient table
     }
+
 
 }
 

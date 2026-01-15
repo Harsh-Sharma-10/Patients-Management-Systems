@@ -52,7 +52,7 @@ public class PatientController {
 
     }
     @PutMapping("/update/{id}")
-    @Operation(summary = "updating an existing patient")
+    @Operation(summary = "updating an existi ng patient")
     public ResponseEntity<PatientResponseDto> updatePatient(@PathVariable UUID id, @Validated({Default.class}) @RequestBody PatientRequestDto patientRequestDto){
         PatientResponseDto p = patientServices.updatePatient(id,patientRequestDto);
         return new ResponseEntity<>(p,HttpStatus.OK);

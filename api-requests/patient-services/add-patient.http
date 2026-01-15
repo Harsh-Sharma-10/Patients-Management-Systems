@@ -4,8 +4,8 @@ POST http://localhost:8089/api/add
 Content-Type: application/json
 
 {
-  "name": "Yash Bhadu",
-  "email": "yashbhide122@gmail.com",
+  "name": "Devvrat Bhai",
+  "email": "devvrathide122@gmail.com",
   "address": "Hoshangabad HBAD",
   "registerDate": "2025-02-27",
   "birthDate": "1958-01-05",
