@@ -1,12 +1,15 @@
 package com.pm.patientservices.exception;
 
-import lombok.extern.slf4j.Slf4j;
+
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +28,9 @@ public class GlobalException {
     @ExceptionHandler(EmailAlreadyExitsException.class)
     public ResponseEntity<Map<String, String>> handleEmailAlreadyExitsException(EmailAlreadyExitsException ex) {
 
-        log.warn("Email Already Exists {}", ex.getMessage());
+        log.warn("Email Already Exists {} ", ex.getMessage());
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "email already exists");
+        errors.put("message", " email already exists ");
         return ResponseEntity.badRequest().body(errors);
     }
 

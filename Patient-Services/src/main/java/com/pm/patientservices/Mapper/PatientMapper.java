@@ -2,7 +2,7 @@ package com.pm.patientservices.Mapper;
 
 import com.pm.patientservices.Dto.PatientRequestDto;
 import com.pm.patientservices.Dto.PatientResponseDto;
-import com.pm.patientservices.Model.Patient;
+
 import com.pm.patientservices.Model.PatientEntity;
 
 
@@ -21,8 +21,8 @@ public class PatientMapper {  /// this class is used to convert a patient type o
 
            return patientResponseDto;
       }
-      public static Patient totakepatientfromRequestDto(PatientRequestDto patientRequestDto){
-          PatientEntity patient = new Patient();
+      public static PatientEntity totakepatientfromRequestDto(PatientRequestDto patientRequestDto){
+          PatientEntity patient = new PatientEntity();
           patient.setName(patientRequestDto.getName());
           patient.setEmail(patientRequestDto.getEmail());
           patient.setAddress(patientRequestDto.getAddress());

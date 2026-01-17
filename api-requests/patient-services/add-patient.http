@@ -4,10 +4,10 @@ POST http://localhost:8089/api/add
 Content-Type: application/json
 
 {
-  "name": "Devvrat Bhai",
+  "name": "Harshit Gupta",
   "email": "devvrathide122@gmail.com",
   "address": "Hoshangabad HBAD",
-  "registerDate": "2025-02-27",
-  "birthDate": "1958-01-05",
-  "phoneNumber": "+917898487777"
+  "registerDate": "2025-12-29",
+  "birthDate": "1998-01-05",
+  "phoneNumber": "+917898487717"
 }

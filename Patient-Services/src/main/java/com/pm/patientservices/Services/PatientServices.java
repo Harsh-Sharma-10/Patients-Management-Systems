@@ -48,7 +48,7 @@ public class PatientServices {
     public PatientResponseDto addPatient(PatientRequestDto patientRequestDto){
 
         if(patientRepository.existsByEmail(patientRequestDto.getEmail())){
-            throw new EmailAlreadyExitsException("A patient with this email is already exists" + patientRequestDto.getEmail());
+            throw new EmailAlreadyExitsException("A patient with this email " + patientRequestDto.getEmail());
         }
         PatientEntity patient = PatientMapper.totakepatientfromRequestDto(patientRequestDto);
         patientRepository.save(patient);
@@ -76,7 +76,7 @@ public class PatientServices {
                   patient.setAddress(patientRequestDto.getAddress());
                   patient.setDateOfBirth(LocalDate.parse(patientRequestDto.getBirthDate()));
                   patient.setPhoneNumber(patientRequestDto.getPhoneNumber());
-                  Patient updatedPatient = patientRepository.save(patient);
+                  PatientEntity updatedPatient = patientRepository.save(patient);
           return PatientMapper.patientResponseDto(updatedPatient);
     }
     public void deletePatient(UUID id){

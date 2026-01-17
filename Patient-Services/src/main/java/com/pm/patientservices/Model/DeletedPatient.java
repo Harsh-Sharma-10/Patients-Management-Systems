@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Deleted_Patients")
-@Data
+
 public class DeletedPatient {
 
     @Id
@@ -27,5 +27,67 @@ public class DeletedPatient {
 
     private LocalDateTime deletedAt;
 
+    public UUID getId() {
+        return id;
+    }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDate getDateofbirth() {
+        return dateofbirth;
+    }
+
+    public void setDateofbirth(LocalDate dateofbirth) {
+        this.dateofbirth = dateofbirth;
+    }
+
+    public LocalDate getRegistredate() {
+        return registredate;
+    }
+
+    public void setRegistredate(LocalDate registredate) {
+        this.registredate = registredate;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 }
