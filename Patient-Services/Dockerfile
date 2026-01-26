@@ -1,4 +1,3 @@
-# Stage 1: Build the application
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 
 WORKDIR /workspace
@@ -19,4 +18,3 @@ EXPOSE 8089
 EXPOSE 9001
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
-

@@ -9,16 +9,21 @@ services:
     environment:
       KAFKA_NODE_ID: 0
       KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CLUSTER_ID: "kraft-cluster-1"
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:9094,PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
     networks:
       - patient_net
 
+
   billing-systems:
-    build: "./billing-systems"
+    build:
+      context: .
+      dockerfile: billing-systems/Dockerfile
     container_name: billing-systems
     environment:
       TZ: Asia/Kolkata
@@ -31,9 +36,10 @@ services:
       - kafka
     networks:
       - patient_net
-
   patient-service:
-    build: "./Patient-Services"
+    build:
+      context: .
+      dockerfile: Patient-Services/Dockerfile
     container_name: patient-service
     ports:
       - "8089:8089"
@@ -41,7 +47,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-database:5432/patient_data
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: ALWAYS
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+
     depends_on:
       patient-service-database:
         condition: service_healthy
@@ -51,7 +61,6 @@ services:
         condition: service_started
     networks:
       - patient_net
-
   patient-service-database:
     image: postgres:16
     container_name: patient-service-database

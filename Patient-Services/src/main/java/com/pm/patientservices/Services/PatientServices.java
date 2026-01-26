@@ -11,7 +11,10 @@ import com.pm.patientservices.Repositories.DeletedPatientRepository;
 import com.pm.patientservices.Repositories.PatientRepository;
 import com.pm.patientservices.exception.EmailAlreadyExitsException;
 import com.pm.patientservices.exception.PatientNotexistsException;
+import com.pm.patientservices.kafka.KafkaProducer;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,16 +25,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class PatientServices {
-     private final  PatientRepository patientRepository;
-     private  final DeletedPatientRepository deletedPatientRepository;
+     private final PatientRepository patientRepository;
+     private final DeletedPatientRepository deletedPatientRepository;
      private final BillingServiceGrpcClient billingServiceGrpcClient;
+     private final KafkaProducer kafkaProducer;
 
-    PatientServices(PatientRepository patientRepository, DeletedPatientRepository deletedPatientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
+
+
+    PatientServices(PatientRepository patientRepository, DeletedPatientRepository deletedPatientRepository, BillingServiceGrpcClient billingServiceGrpcClient, KafkaProducer kafkaProducer) {
          this.patientRepository = patientRepository;
          this.deletedPatientRepository = deletedPatientRepository;
          this.billingServiceGrpcClient = billingServiceGrpcClient;
-
-     }
+         this.kafkaProducer = kafkaProducer;
+    }
 
     public PatientResponseDto getPatientById(UUID id) {
         PatientEntity patient = patientRepository.findById(id).orElse(null);
@@ -48,7 +54,7 @@ public class PatientServices {
     public PatientResponseDto addPatient(PatientRequestDto patientRequestDto){
 
         if(patientRepository.existsByEmail(patientRequestDto.getEmail())){
-            throw new EmailAlreadyExitsException("A patient with this email " + patientRequestDto.getEmail());
+            throw new EmailAlreadyExitsException("A patient with this email  is already exists " + patientRequestDto.getEmail());
         }
         PatientEntity patient = PatientMapper.totakepatientfromRequestDto(patientRequestDto);
         patientRepository.save(patient);
@@ -61,6 +67,8 @@ public class PatientServices {
         }catch (Exception e){
             System.out.println("Failed to call Billing gRPC service: " + e.getMessage());
         }
+        kafkaProducer.sendEvent(patient);
+
         return PatientMapper.patientResponseDto(patient);
     }
     public PatientResponseDto updatePatient(UUID id, PatientRequestDto patientRequestDto){
