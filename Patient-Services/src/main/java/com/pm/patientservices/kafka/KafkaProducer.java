@@ -55,6 +55,7 @@ public class KafkaProducer {
 
         } catch (Exception ex) {
             log.error("Unexpected error while sending Kafka event {}", event, ex);
+            ///Throw an exception
         }
     }
 
