@@ -34,7 +34,7 @@ public class AdminController {
         if (deletedPatient != null) {
             return new ResponseEntity<>(deletedPatient, HttpStatus.OK);
         }
-        return new ResponseEntity<>("PATIENT IS NOT CHECKED OUT YET",HttpStatus.CONFLICT);
+        return new ResponseEntity<>("PATIENT IS NOT CHECKED OUT YET",HttpStatus.MULTIPLE_CHOICES);
     }
     @DeleteMapping("/deletepermantly/{id}")
     @Operation(summary = "To delete the patient's record permanently")

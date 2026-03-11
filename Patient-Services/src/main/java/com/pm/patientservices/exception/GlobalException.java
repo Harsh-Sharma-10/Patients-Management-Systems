@@ -41,6 +41,7 @@ public class GlobalException {
         errors.put("message", "patient is Not exists ");
         return ResponseEntity.badRequest().body(errors);
 
+
     }
 
 
