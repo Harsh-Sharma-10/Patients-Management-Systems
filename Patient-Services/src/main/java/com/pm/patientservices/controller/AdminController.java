@@ -27,6 +27,7 @@ public class AdminController {
     public ResponseEntity<List<DeletedPatient>> getdeletedpatients(){
         return new ResponseEntity<>(logs_PatientServices.get_records(), HttpStatus.OK);
     }
+    /// To fetch the records of the deleted patient
     @GetMapping("/deletedpatients/{id}")
     @Operation(summary = "To get record of a deleted person")
     public ResponseEntity<?>getdeletedpatient(@PathVariable UUID id) {
@@ -40,7 +41,7 @@ public class AdminController {
     @Operation(summary = "To delete the patient's record permanently")
     public ResponseEntity<String> deletepermantly(@PathVariable UUID id){
          logs_PatientServices.Deletepermanently(id);
-          return new ResponseEntity<>("DELETED PERMANTLY",HttpStatus.NO_CONTENT);
+          return new ResponseEntity<>("DELETED PERMANTLY",HttpStatus.OK);
     }
 }
 
